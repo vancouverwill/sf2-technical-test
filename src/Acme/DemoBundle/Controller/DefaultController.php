@@ -42,7 +42,6 @@ class DefaultController extends Controller
 
                     $count++;
                 }
-//                return new Response(json_decode($results));
 
                 $response = new Response();
                 $response->setContent(json_encode($nameAndWatchersCount));
@@ -50,22 +49,24 @@ class DefaultController extends Controller
                 return $response;
             }
             else {
-                return new Response("successfly received form " . $username);
+                $formMessage = "No GitHub results from " . $username;
+//                return new Response("No GitHub results from " . $username);
             }
         }
+        else {
+            $formMessage = "";
+        }
 
-        return $this->render('AcmeDemoBundle:Default:new.html.twig', array(
+        return $this->render('AcmeDemoBundle:Default:index.html.twig', array(
             'form' => $form->createView(),
+            'message' => $formMessage
         ));
     }
 
-    public function searchAction()
+    public function simpleFetchAction()
     {
         $gitHubClient = new GitHubClient();
         $results = $gitHubClient->retrieveUsersRepositories("vancouverwill");
-//        var_dump($results);
-
-        $name = "greg";
 
         if ($results != FALSE) {
             $response = new Response();
@@ -76,13 +77,9 @@ class DefaultController extends Controller
             $response = new Response();
             $response->setContent("hey that github user doesn't exist");
         }
-
         return $response;
     }
 
 
-    public function newAction(Request $request)
-    {
 
-    }
 }

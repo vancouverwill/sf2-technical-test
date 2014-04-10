@@ -1,15 +1,18 @@
 {% block head %}
-<link rel="icon" sizes="16x16" href="{{ asset('favicon.ico') }}" />
-<link rel="stylesheet" href="{{ asset('bundles/acmedemo/css/demo.css') }}" />
+    <link rel="icon" sizes="16x16" href="{{ asset('favicon.ico') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/acmedemo/css/demo.css') }}" />
 {% endblock %}
 
-{% block title 'Demo Bundle' %}
 
-<h2></h2>Hello {{ name }}!</h2>
 
+<h2 class="github-search">Please put a valid GitHub username in the search box below to see a JSON formatted list of their repositories</h2>
+
+{{ form(form) }}
+
+{{ message }}
 
 {% if app.user %}
-    <p>Username: {{ app.user.username }}</p>
+    <p>Hi {{ app.user.username }}</p>
 {% endif %}
 
 {% if is_granted('ROLE_USER') %}
@@ -17,4 +20,3 @@
 {% else %}
     <a href="{{ path('login') }}">login</a>
 {% endif %}
-
