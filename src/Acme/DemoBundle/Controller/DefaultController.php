@@ -10,9 +10,53 @@ use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
-    public function indexAction($name)
+    public function indexAction(Request $request)
     {
-        return $this->render('AcmeDemoBundle:Default:index.html.twig', array('name' => $name));
+        $form = $this->createFormBuilder()
+            ->add('username', 'text')
+            ->add('search for github results', 'submit')
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $results = $form->getData();
+
+            $username = $results["username"];
+
+            $gitHubClient = new GitHubClient();
+            $results = $gitHubClient->retrieveUsersRepositories($username);
+
+            if ($results != FALSE) {
+
+                $resultsArray = json_decode($results);
+
+                $nameAndWatchersCount = array();
+                $count = 0;
+
+                foreach ($resultsArray AS $resultArray) {
+
+                    $resultArray = (array)$resultArray;
+                    $nameAndWatchersCount[$count]['name'] = $resultArray['name'];
+                    $nameAndWatchersCount[$count]['watchersCount'] = $resultArray['watchers_count'];
+
+                    $count++;
+                }
+//                return new Response(json_decode($results));
+
+                $response = new Response();
+                $response->setContent(json_encode($nameAndWatchersCount));
+                $response->headers->set('Content-Type', 'application/json');
+                return $response;
+            }
+            else {
+                return new Response("successfly received form " . $username);
+            }
+        }
+
+        return $this->render('AcmeDemoBundle:Default:new.html.twig', array(
+            'form' => $form->createView(),
+        ));
     }
 
     public function searchAction()
@@ -34,42 +78,11 @@ class DefaultController extends Controller
         }
 
         return $response;
-
-//        return new Response($results);
-//        return $this->render('AcmeDemoBundle:Default:search.html.twig', array('name' => $name));
     }
 
 
     public function newAction(Request $request)
     {
-        $form = $this->createFormBuilder()
-            ->add('username', 'text')
-            ->add('search for github results', 'submit')
-            ->getForm();
 
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $results = $form->getData();
-
-            $username = $results["username"];
-
-            $gitHubClient = new GitHubClient();
-            $results = $gitHubClient->retrieveUsersRepositories($username);
-
-            if ($results != FALSE) {
-                $response = new Response();
-                $response->setContent($results);
-                $response->headers->set('Content-Type', 'application/json');
-                return $response;
-            }
-            else {
-                return new Response("successfly received form " . $username);
-            }
-        }
-
-        return $this->render('AcmeDemoBundle:Default:new.html.twig', array(
-            'form' => $form->createView(),
-        ));
     }
 }

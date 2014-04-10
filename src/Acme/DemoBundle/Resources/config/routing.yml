@@ -8,7 +8,7 @@ logout:
 
 _welcome:
     pattern:  /
-    defaults: { _controller: AcmeDemoBundle:Default:search }
+    defaults: { _controller: AcmeDemoBundle:Default:index }
 
 _welcome_form:
     pattern:  /new
