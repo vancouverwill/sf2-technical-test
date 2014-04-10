@@ -21,25 +21,20 @@ class DefaultController extends Controller
 
         if ($form->isValid()) {
             $results = $form->getData();
-
             $username = $results["username"];
-
             $gitHubClient = new GitHubClient();
             $results = $gitHubClient->retrieveUsersRepositories($username);
 
             if ($results != FALSE) {
 
                 $resultsArray = json_decode($results);
-
                 $nameAndWatchersCount = array();
                 $count = 0;
 
                 foreach ($resultsArray AS $resultArray) {
-
                     $resultArray = (array)$resultArray;
                     $nameAndWatchersCount[$count]['name'] = $resultArray['name'];
                     $nameAndWatchersCount[$count]['watchersCount'] = $resultArray['watchers_count'];
-
                     $count++;
                 }
 
@@ -50,7 +45,6 @@ class DefaultController extends Controller
             }
             else {
                 $formMessage = "No GitHub results from " . $username;
-//                return new Response("No GitHub results from " . $username);
             }
         }
         else {
@@ -79,7 +73,4 @@ class DefaultController extends Controller
         }
         return $response;
     }
-
-
-
 }

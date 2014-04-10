@@ -2,7 +2,7 @@
 
 ### Will Melbourne's Fork
 
-I completed this work on the evening of 9 April 2014 and it took me three hours. It was good fun getting to know Symfony again.
+I completed this work on the evening of 9 April 2014 and it took me three and a quarter hours. It was good fun getting to know Symfony again.
 I especially liked the built in testing integration of PHPUNIT and see how easy it was to get going with it. The fact you can
 write not only unit tests fully server side but also functional tests to test controllers and views is incredibly useful right of the box.
 Also being able to use the console to work with the application, see the routes and generate code is a great feature for a PHP framework.
