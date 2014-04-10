@@ -1,6 +1,18 @@
+login:
+    path:     /login
+    defaults: { _controller: AcmeDemoBundle:Security:login }
+login_check:
+    path: /login_check
+logout:
+    path:   /logout
+
 _welcome:
     pattern:  /
-    defaults: { _controller: AcmeDemoBundle:Welcome:index }
+    defaults: { _controller: AcmeDemoBundle:Default:search }
+
+_welcome_form:
+    pattern:  /new
+    defaults: { _controller: AcmeDemoBundle:Default:new }
 
 _demo_secured:
     resource: "@AcmeDemoBundle/Controller/SecuredController.php"

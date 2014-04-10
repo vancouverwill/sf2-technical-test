@@ -1,0 +1,20 @@
+{% block head %}
+<link rel="icon" sizes="16x16" href="{{ asset('favicon.ico') }}" />
+<link rel="stylesheet" href="{{ asset('bundles/acmedemo/css/demo.css') }}" />
+{% endblock %}
+
+{% block title 'Demo Bundle' %}
+
+<h2></h2>Hello {{ name }}!</h2>
+
+
+{% if app.user %}
+    <p>Username: {{ app.user.username }}</p>
+{% endif %}
+
+{% if is_granted('ROLE_USER') %}
+    <a href="{{ path('logout') }}">logout</a>
+{% else %}
+    <a href="{{ path('login') }}">login</a>
+{% endif %}
+
